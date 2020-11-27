@@ -1,3 +1,5 @@
+#include <UnoWiFiDevEd.h>
+
 /*  This sketch was made to remote control a LEGO Technic vehicle
     Copyright (C) 2020  hoharald 
     This program is free software: you can redistribute it and/or modify
@@ -17,7 +19,7 @@
 #include <math.h>
 #include "TechnicHub.h"
 
-//#define DEBUG                                         //Uncomment this line to debug via a connected serial terminal
+#define DEBUG                                         //Uncomment this line to debug via a connected serial terminal
 
 #ifdef DEBUG
   #define DPRINT(...)    Serial.print(__VA_ARGS__)
@@ -26,6 +28,33 @@
   #define DPRINT(...)     //now defines a blank line
   #define DPRINTLN(...)   //now defines a blank line
 #endif
+
+
+// Arduino pin numbers LEFT pad
+//const int SW_pin = 2; // digital pin connected to switch output
+//const int X_pin = 2; // analog pin connected to X output
+//const int Y_pin = 4; // analog pin connected to Y output
+//
+// from 0 to 570
+// 
+//void setup() {
+//  pinMode(SW_pin, INPUT);
+//  digitalWrite(SW_pin, HIGH);
+//  Serial.begin(115200);
+//}
+//
+//void loop() {
+//  Serial.print("Switch:  ");
+//  Serial.print(digitalRead(SW_pin));
+//  Serial.print("\n");
+//  Serial.print("X-axis: ");
+//  Serial.print(analogRead(X_pin));
+//  Serial.print("\n");
+//  Serial.print("Y-axis: ");
+//  Serial.println(analogRead(Y_pin));
+//  Serial.print("\n\n");
+//  delay(500);
+//}
 
 
 enum class ControllerState {
@@ -76,9 +105,19 @@ int write_result;
 
 int32_t direction_center, direction_range, direction_limit_left, direction_limit_right, direction_position, direction_target_position;
 
+// Arduino Analog pin numbers LEFT pad -- Joystick controller
+const int SW_pin = 2; // digital pin connected to switch output
+const int X_pin = 2; // analog pin connected to X output
+const int Y_pin = 4; // analog pin connected to Y output
+  
 BLECharacteristic characteristic;
 
 void setup() {
+
+  // Arduino Analog pin numbers LEFT pad -- Joystick controller
+  pinMode(SW_pin, INPUT);
+  digitalWrite(SW_pin, HIGH);
+
   pinMode(22, OUTPUT);
   pinMode(23, OUTPUT);
   pinMode(24, OUTPUT);
